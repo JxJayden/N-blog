@@ -8,12 +8,12 @@ router.get('/', function(req, res) {
 
 /* 注册 */
 router.get('/reg', function(req, res) {
-  res.render('index', { title: '注册' });
+  res.render('reg', { title: '注册' });
 });
 
 /* 登录 */
 router.get('/login', function(req, res, next) {
-  res.render('index', { title: '登录' });
+  res.render('login', { title: '登录' });
 });
 
 /* 退出 */
