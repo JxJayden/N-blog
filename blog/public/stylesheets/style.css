@@ -122,7 +122,6 @@ article a:hover {
 
 .ui-btn {
     display: inline-block;
-    margin-bottom: 0;
     padding: .5em 1em;
     vertical-align: middle;
     font-size: 14px;
@@ -138,6 +137,7 @@ article a:hover {
     -webkit-appearance: none;
     -webkit-user-select: none;
     background-color: #0f9ae0;
+    margin: 0 auto;
 }
 
 .ui-btn-primary:hover {
