@@ -1,4 +1,5 @@
 var mongodb = require('./db');
+var logger = require('log4js').getLogger("models");
 
 function User(user) {
     this.name = user.name;
