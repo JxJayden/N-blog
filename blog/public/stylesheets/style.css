@@ -8,10 +8,11 @@
 body {
     font-family: 'Microsoft YaHei';
     font-size: 14px;
+    color: #fff;
     width: 600px;
     margin: 2em auto;
     padding: 0 2em;
-    background-color: #FCFAF2;
+    background-color: rgba(245, 150, 170, 0.8);
     background-image: url('../images/texture.png');
     image-rendering: -webkit-optimize-contrast;
 }
@@ -34,7 +35,7 @@ textarea {
 
 header {
     padding: .5em 0;
-    border-bottom: 1px solid #BDC0BA;
+    border-bottom: 1px solid #fff;
 }
 
 nav {
@@ -51,13 +52,13 @@ nav a {
     display: block;
     padding: .7em 1em;
     text-decoration: none;
-    color: #000;
+    color: #fff;
 }
 
 nav a:hover {
     -webkit-transition: color .2s linear;
     color: #f9f9f9;
-    background-color: #e87a90;
+    background-color: #D0104C;
 }
 
 article {
@@ -67,12 +68,12 @@ article {
 
 article a {
     text-decoration: none;
-    color: #d00;
+    color: #D7C4BB;
 }
 
 article a:hover {
     text-decoration: underline;
-    color: #333;
+    color: #D0104C;
 }
 
 .info {
@@ -87,7 +88,7 @@ article a:hover {
     height: 200px;
     width: 300px;
     font-size: 1.1em;
-    margin: 1em 0 0 1em;
+    margin: 1em 0 0 0;
     /* text-align: right; */
     text-transform: uppercase;
 }
@@ -103,21 +104,20 @@ article a:hover {
 .ui-from-group {
     margin-bottom: 20px;
 }
-
-.ui-form input {
+.ui-form-ele{
     font-size: 14px;
     padding: 4px 6px;
-    line-height: 20px;
     border-radius: 0;
     background-color: #fff;
-    border: 1px solid #ccc;
+    border: 1px solid #F596AA;
+}
+.ui-form-input{
     height: 20px;
 }
-
-.ui-form input:focus {
+.ui-form-input:focus {
     outline: 0;
-    border-color: rgba(203, 64, 66, 0.8);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(203, 64, 66, 0.6);
+    border-color: rgba(88, 178, 220, 1);
+    box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.075), 0 0 8px rgba(88, 178, 220, 0.9);
 }
 
 .ui-btn {
@@ -136,15 +136,15 @@ article a:hover {
     outline: 0;
     -webkit-appearance: none;
     -webkit-user-select: none;
-    background-color: #0f9ae0;
+    background-color: #DB4D6D;
     margin: 0 auto;
 }
 
 .ui-btn-primary:hover {
-    background-color: #005CAF;
+    background-color: #CB1B45;
 }
 
 .ui-btn-primary:active {
-    background-color: #005CAF;
+    background-color: #CB1B45;
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, .15);
 }
