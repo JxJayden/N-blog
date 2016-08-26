@@ -1,5 +1,6 @@
 var mongodb = require('./db');
 var logger = require('log4js').getLogger("post");
+var markdown = require('markdown').markdown;
 
 function Post(name,title,post) {
  this.name = name;
@@ -80,6 +81,10 @@ Post.get = function(name, callback) {
           return callback(err);//失败！返回 err
         }
         logger.info(docs);
+        //解析 markdown 为 html
+        docs.forEach(function (doc) {
+        doc.post = markdown.toHTML(doc.post);
+        });
         callback(null, docs);//成功！以数组形式返回查询的结果
       });
     });
