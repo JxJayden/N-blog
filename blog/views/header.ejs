@@ -9,6 +9,14 @@
 
 <header id="header" class="">
 <h1><%= title%></h1>
+<% if(success) { %>
+ <div class="msg">
+  <%= success %>
+ </div>
+ <% } %>
+ <% if (error) { %>
+  <div class="msg"><%= error %> </div>
+<% } %>
 </header><!-- /header -->
 
 <nav>
@@ -21,12 +29,4 @@
  <span><a title="注册" href="/reg">注册</a></span>
  <% } %>
 </nav>
-<article>
-<% if(success) { %>
- <div>
-  <%= success %>
- </div>
- <% } %>
- <% if (error) { %>
-  <div><%= error %> </div>
-<% } %>
+<div class="main">

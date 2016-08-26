@@ -37,7 +37,14 @@ header {
     padding: .5em 0;
     border-bottom: 1px solid #fff;
 }
-
+header h1{
+    display: inline-block;
+}
+.msg{
+    float: right;
+    margin:15px 5px 0 0;
+    text-align: left;
+}
 nav {
     font-family: 'Microsoft YaHei';
     font-size: 1.1em;
@@ -64,16 +71,18 @@ nav a:hover {
 article {
     font-size: 16px;
     padding-top: .5em;
+    border-bottom: 1px solid #fff;
 }
 
 article a {
     text-decoration: none;
-    color: #D7C4BB;
+    color: #CB1B45;
 }
 
 article a:hover {
-    text-decoration: underline;
-    color: #D0104C;
+    /* background-color: #CB1B45; */
+    text-decoration: none;
+    color: #8E354A;
 }
 
 .info {

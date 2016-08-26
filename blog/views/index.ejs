@@ -1,3 +1,15 @@
 <%- include header %>
-这是主页
+<%if(user&&posts){%>
+<% posts.forEach(function (post,index) { %>
+<article>
+<h2><a href="#"><%= post.title%></a></h2>
+<p class ="info">
+<div>作者：<a href="#"><%= post.name%></a> |
+日期：<%= post.time.minute %></div>
+</p>
+<p><%= post.post%></p>
+</article>
+<%})%>
+<%}else{%>
+<%}%>
 <%- include footer %>

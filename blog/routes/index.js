@@ -7,13 +7,15 @@ var logger = require('log4js').getLogger("router");
 var Post = require('../models/post.js');
 /* 主页 */
 router.get('/', function(req, res) {
-    var currentUserName = req.session.user.name;
-    Post.get(currentUserName, function(err, posts) {
+    var currentUserName;
+    logger.info('user is: '+JSON.stringify(req.session.user));
+    if (req.session.user) {
+        currentUserName = req.session.user.name;
+        Post.get(currentUserName, function(err, posts) {
         if (err) {
             logger.debug(err);
             posts = [];
         }
-        logger.info('user is: '+JSON.stringify(req.session.user));
         logger.info('文章：'+JSON.stringify(posts));
         res.render('index', {
             title: '主页',
@@ -23,6 +25,16 @@ router.get('/', function(req, res) {
             error: req.flash('error').toString()
         });
     });
+    } else{
+        res.render('index', {
+            title: '主页',
+            user: req.session.user,
+            success: req.flash('success').toString(),
+            error: req.flash('error').toString()
+        });
+    }
+
+
 });
 
 /* 注册 */
