@@ -9,6 +9,7 @@ var settings = require('./settings');
 var flash = require('connect-flash');
 var users = require('./routes/users');
 var session = require('express-session');
+var multer  = require('multer');
 var MongoStore = require('connect-mongo')(session);
 
 var app = express();

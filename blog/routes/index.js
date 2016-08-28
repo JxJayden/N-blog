@@ -5,6 +5,8 @@ var flash = require('connect-flash');
 var User = require('../models/user');
 var logger = require('log4js').getLogger("router");
 var Post = require('../models/post.js');
+var multer  = require('multer');
+
 /* 主页 */
 router.get('/', function(req, res) {
     var currentUserName;
@@ -37,7 +39,18 @@ router.get('/', function(req, res) {
 
 });
 
-/* 注册 */
+/* 上传文件页面 */
+router.get('/upload',checkLogin);
+router.get('/upload',function(req,res) {
+    res.render('upload',{
+        title:'文件上传',
+        user:req.session.user,
+        success: req.flash('success').toString(),
+        error: req.flash('error').toString()
+    });
+});
+
+/* 注册页面 */
 router.get('/reg', checkNotLogin);
 router.get('/reg', function(req, res) {
     logger.info(req.session);
@@ -49,7 +62,7 @@ router.get('/reg', function(req, res) {
     });
 });
 
-/* 登录 */
+/* 登录页面 */
 router.get('/login', checkNotLogin);
 router.get('/login', function(req, res, next) {
     res.render('login', {
@@ -174,7 +187,14 @@ router.post('/post', function(req, res) {
         }
         req.flash('success', '发布成功!');
         res.redirect('/'); //发表成功跳转到主页
-    })
+    });
+});
+
+/* 发送上传文件请求 */
+router.post('/upload',checkLogin);
+router.post('/upload',upload.array('field1',5),function(req,res){
+     req.flash('success', '文件上传成功!');
+     res.redirect('/upload');
 });
 
 module.exports = router;
@@ -200,3 +220,17 @@ function checkNotLogin(req, res, next) {
     }
     next();
 }
+
+
+// 上传文件的方法 destination：文件保存的地方，filename：文件名
+var storage = multer.diskStorage({
+    destination: function (req, file, cb){
+        cb(null, './public/images');
+    },
+    filename: function (req, file, cb){
+        cb(null, file.originalname);
+    }
+});
+var upload = multer({
+    storage: storage
+});
