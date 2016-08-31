@@ -191,11 +191,11 @@ router.post('/post', function(req, res) {
 });
 
 /* 发送上传文件请求 */
-router.post('/upload',checkLogin);
-router.post('/upload',upload.array('field1',5),function(req,res){
-     req.flash('success', '文件上传成功!');
-     res.redirect('/upload');
-});
+// router.post('/upload',checkLogin);
+// router.post('/upload',upload.array('field1',5),function(req,res){
+//      req.flash('success', '文件上传成功!');
+//      res.redirect('/upload');
+// });
 
 module.exports = router;
 
@@ -223,14 +223,14 @@ function checkNotLogin(req, res, next) {
 
 
 // 上传文件的方法 destination：文件保存的地方，filename：文件名
-var storage = multer.diskStorage({
-    destination: function (req, file, cb){
-        cb(null, './public/images');
-    },
-    filename: function (req, file, cb){
-        cb(null, file.originalname);
-    }
-});
-var upload = multer({
-    storage: storage
-});
+// var storage = multer.diskStorage({
+//     destination: function (req, file, cb){
+//         cb(null, './public/images');
+//     },
+//     filename: function (req, file, cb){
+//         cb(null, file.originalname);
+//     }
+// });
+// var upload = multer({
+//     storage: storage
+// });
