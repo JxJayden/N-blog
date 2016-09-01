@@ -23,7 +23,7 @@ app.use(session({
   store: new MongoStore({
   url: 'mongodb://localhost/blogdb'
 })
-}))
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -94,7 +94,7 @@ Post.getAll = function(name, callback) {
 
 // 读取某篇文章
 Post.getOne = function(name,day,title,callback){
-  mongodb.open(err,db){
+  mongodb.open(function(err,db){
     if (err) {
       return callback(err);
     }
@@ -115,7 +115,7 @@ Post.getOne = function(name,day,title,callback){
         }
         doc.post = markdown.toHTML(doc.post);
         callback(null,err);
-      })
-    })
-  }
+      });
+    });
+  });
 }
