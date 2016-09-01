@@ -55,8 +55,8 @@ Post.prototype.save = function(callback) {
   });
 };
 
-//读取文章及其相关信息
-Post.get = function(name, callback) {
+//读取全部文章及其相关信息
+Post.getAll = function(name, callback) {
   //打开数据库
   mongodb.open(function (err, db) {
     if (err) {
@@ -90,3 +90,32 @@ Post.get = function(name, callback) {
     });
   });
 };
+
+
+// 读取某篇文章
+Post.getOne = function(name,day,title,callback){
+  mongodb.open(err,db){
+    if (err) {
+      return callback(err);
+    }
+    db.collection('posts',function (err,collection) {
+      // 处理错误
+      if (err) {
+        mongodb.close();
+        callback(err);
+      }
+      collection.findOne({
+        "name": name,
+        "time.day": day,
+        "title": title
+      },function(err,doc){
+        mongodb.close();
+        if (err) {
+          return callback(err);
+        }
+        doc.post = markdown.toHTML(doc.post);
+        callback(null,err);
+      })
+    })
+  }
+}

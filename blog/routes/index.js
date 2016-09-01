@@ -26,7 +26,7 @@ router.get('/', function(req, res) {
     logger.info('user is: '+JSON.stringify(req.session.user));
     if (req.session.user) {
         currentUserName = req.session.user.name;
-        Post.get(currentUserName, function(err, posts) {
+        Post.getAll(currentUserName, function(err, posts) {
         if (err) {
             logger.debug(err);
             posts = [];
