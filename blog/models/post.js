@@ -113,8 +113,9 @@ Post.getOne = function(name,day,title,callback){
         if (err) {
           return callback(err);
         }
+        logger.info(JSON.stringify(doc));
         doc.post = markdown.toHTML(doc.post);
-        callback(null,err);
+        callback(null,doc);
       });
     });
   });

@@ -5,14 +5,14 @@ var flash = require('connect-flash');
 var User = require('../models/user');
 var logger = require('log4js').getLogger("router");
 var Post = require('../models/post.js');
-var multer  = require('multer');
+var multer = require('multer');
 
 // 上传文件的方法 destination：文件保存的地方，filename：文件名
 var storage = multer.diskStorage({
-    destination: function (req, file, cb){
+    destination: function(req, file, cb) {
         cb(null, './public/upload_images');
     },
-    filename: function (req, file, cb){
+    filename: function(req, file, cb) {
         cb(null, file.originalname);
     }
 });
@@ -23,24 +23,24 @@ var upload = multer({
 /* 主页 */
 router.get('/', function(req, res) {
     var currentUserName;
-    logger.info('user is: '+JSON.stringify(req.session.user));
+    logger.info('user is: ' + JSON.stringify(req.session.user));
     if (req.session.user) {
         currentUserName = req.session.user.name;
         Post.getAll(currentUserName, function(err, posts) {
-        if (err) {
-            logger.debug(err);
-            posts = [];
-        }
-        logger.info('文章：'+JSON.stringify(posts));
-        res.render('index', {
-            title: '主页',
-            user: req.session.user,
-            posts: posts,
-            success: req.flash('success').toString(),
-            error: req.flash('error').toString()
+            if (err) {
+                logger.debug(err);
+                posts = [];
+            }
+            logger.info('文章：' + JSON.stringify(posts));
+            res.render('index', {
+                title: '主页',
+                user: req.session.user,
+                posts: posts,
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString()
+            });
         });
-    });
-    } else{
+    } else {
         res.render('index', {
             title: '主页',
             user: req.session.user,
@@ -53,11 +53,11 @@ router.get('/', function(req, res) {
 });
 
 /* 上传文件页面 */
-router.get('/upload',checkLogin);
-router.get('/upload',function(req,res) {
-    res.render('upload',{
-        title:'文件上传',
-        user:req.session.user,
+router.get('/upload', checkLogin);
+router.get('/upload', function(req, res) {
+    res.render('upload', {
+        title: '文件上传',
+        user: req.session.user,
         success: req.flash('success').toString(),
         error: req.flash('error').toString()
     });
@@ -97,8 +97,53 @@ router.get('/post', function(req, res) {
     });
 });
 
-/* 退出 */
-//通过把 req.session.user 赋值 null ，实现用户的退出。
+/* 根据name跳到个人主页 */
+router.get('/u/:name', function(res, req) {
+    User.get(res.params.name, function(err, user) {
+        if (err) {
+            req.flash('error', err);
+            return res.redirect('/');
+        }
+        Post.getAll(user.name, function(err, posts) {
+            if (err) {
+                req.flash('error',err);
+                return res.redirect('/');
+            }
+            res.render('user', {
+                title: user.name + ' 的个人主页',
+                posts: posts,
+                user: req.session.user,
+                success: req.flash('success').toString(),
+                error: req.flash('error').toString()
+            });
+        });
+    });
+});
+
+/* 文章详情页 */
+router.get('/u/:name/:day/:title',function(req,res){
+    logger.info(req.params.name);
+    logger.info(req.params.day);
+    logger.info(req.params.title);
+
+    Post.getOne(req.params.name, req.params.day, req.params.title, function (err, post) {
+    if (err) {
+      req.flash('error', err);
+      return res.redirect('/');
+    }
+    res.render('article', {
+      title: req.params.title,
+      post: post,
+      user: req.session.user,
+      success: req.flash('success').toString(),
+      error: req.flash('error').toString()
+    });
+  });
+});
+
+router.get('')
+    /* 退出 */
+    //通过把 req.session.user 赋值 null ，实现用户的退出。
 router.get('/logout', checkLogin);
 router.get('/logout', function(req, res) {
     req.session.user = null;
@@ -204,10 +249,10 @@ router.post('/post', function(req, res) {
 });
 
 /* 发送上传文件请求 */
-router.post('/upload',checkLogin);
-router.post('/upload',upload.single('field'),function(req,res){
-     req.flash('success', '文件上传成功!');
-     res.redirect('/upload');
+router.post('/upload', checkLogin);
+router.post('/upload', upload.single('field'), function(req, res) {
+    req.flash('success', '文件上传成功!');
+    res.redirect('/upload');
 });
 
 module.exports = router;
@@ -232,5 +277,3 @@ function checkNotLogin(req, res, next) {
     }
     next();
 }
-
-
