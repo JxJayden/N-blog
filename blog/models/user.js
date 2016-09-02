@@ -69,6 +69,7 @@ User.get = function(name, callback) {
              if (err) {
               return callback(err);
              }
+             logger.info(JSON.stringify(user));
              callback(null,user); // 返回查询的用户信息
             });
         });

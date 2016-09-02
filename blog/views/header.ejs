@@ -21,7 +21,7 @@
 
 <nav>
  <% if(user) { %>
- <span><a title="用户" href="#"><%=user.name%></a></span>
+ <span><a title="用户" href="/u/<%= user.name%>"><%=user.name%></a></span>
  <span><a title="主页" href="/">主页</a></span>
  <span><a title="上传" href="/upload">上传</a></span>
  <span><a title="发表" href="/post">发表</a></span>

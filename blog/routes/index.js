@@ -98,12 +98,12 @@ router.get('/post', function(req, res) {
 });
 
 /* 根据name跳到个人主页 */
-router.get('/u/:name', function(res, req) {
-    User.get(res.params.name, function(err, user) {
-        if (err) {
-            req.flash('error', err);
-            return res.redirect('/');
-        }
+router.get('/u/:name', function(req, res) {
+      User.get(req.params.name, function (err, user) {
+    if (!user) {
+      req.flash('error', '用户不存在!');
+      return res.redirect('/');//用户不存在则跳转到主页
+    }
         Post.getAll(user.name, function(err, posts) {
             if (err) {
                 req.flash('error',err);
@@ -122,10 +122,6 @@ router.get('/u/:name', function(res, req) {
 
 /* 文章详情页 */
 router.get('/u/:name/:day/:title',function(req,res){
-    logger.info(req.params.name);
-    logger.info(req.params.day);
-    logger.info(req.params.title);
-
     Post.getOne(req.params.name, req.params.day, req.params.title, function (err, post) {
     if (err) {
       req.flash('error', err);
