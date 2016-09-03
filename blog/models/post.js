@@ -11,7 +11,7 @@ function Post(name,title,post) {
 module.exports = Post;
 
 
-//存储一篇文章及其相关信息
+// save
 Post.prototype.save = function(callback) {
   var date = new Date();
   //存储各种时间格式，方便以后扩展
@@ -33,12 +33,14 @@ Post.prototype.save = function(callback) {
   //打开数据库
   mongodb.open(function (err, db) {
     if (err) {
+        logger.debug("open 步骤出错 "+err);
       return callback(err);
     }
     //读取 posts 集合
     db.collection('posts', function (err, collection) {
       if (err) {
         mongodb.close();
+        logger.debug("collection 步骤出错 "+err);
         return callback(err);
       }
       //将文档插入 posts 集合
@@ -47,6 +49,7 @@ Post.prototype.save = function(callback) {
       }, function (err) {
         mongodb.close();
         if (err) {
+        logger.debug("insert 步骤出错 "+err);
           return callback(err);//失败！返回 err
         }
         callback(null);//返回 err 为 null
@@ -55,17 +58,19 @@ Post.prototype.save = function(callback) {
   });
 };
 
-//读取全部文章及其相关信息
+// getAll
 Post.getAll = function(name, callback) {
   //打开数据库
   mongodb.open(function (err, db) {
     if (err) {
+        logger.debug("open 步骤出错 "+err);
       return callback(err);
     }
     //读取 posts 集合
     db.collection('posts', function(err, collection) {
       if (err) {
         mongodb.close();
+        logger.debug("collection 步骤出错 "+err);
         return callback(err);
       }
       var query = {};
@@ -78,6 +83,7 @@ Post.getAll = function(name, callback) {
       }).toArray(function (err, docs) {
         mongodb.close();
         if (err) {
+        logger.debug("find 步骤出错 "+err);
           return callback(err);//失败！返回 err
         }
         logger.info(docs);
@@ -91,17 +97,18 @@ Post.getAll = function(name, callback) {
   });
 };
 
-
-// 读取某篇文章
+// getOne
 Post.getOne = function(name,day,title,callback){
   mongodb.open(function(err,db){
     if (err) {
+        logger.debug("open 步骤出错 "+err);
       return callback(err);
     }
     db.collection('posts',function (err,collection) {
       // 处理错误
       if (err) {
         mongodb.close();
+        logger.debug("collection 步骤出错 "+err);
         callback(err);
       }
       collection.findOne({
@@ -111,6 +118,7 @@ Post.getOne = function(name,day,title,callback){
       },function(err,doc){
         mongodb.close();
         if (err) {
+        logger.debug("findOne 步骤出错 "+err);
           return callback(err);
         }
         logger.info(JSON.stringify(doc));
@@ -119,4 +127,64 @@ Post.getOne = function(name,day,title,callback){
       });
     });
   });
+}
+
+// edit
+Post.edit = function (name,day,title,callback) {
+  mongodb.open(function(err,db){
+    if (err) {
+        logger.debug("open 步骤出错 "+err);
+      return callback(err);
+    }
+    db.collection('posts',function(err,collection){
+      if (err) {
+        logger.debug("collection 步骤出错 "+err);
+        mongodb.close();
+        return callback(err);
+      }
+      collection.findOne({
+        "name": name,
+        "time.day":day,
+        "title":title
+      },function (err,doc) {
+          mongodb.close();
+        if (err) {
+        logger.debug("findOne 步骤出错 "+err);
+          return callback(err);
+        }
+        logger.info("doc is"+JSON.stringify(doc));
+        callback(null,doc);
+      });
+    });
+  });
+}
+
+// remove
+Post.remove = function (name,day,title,callback) {
+  mongodb.open(function (err,db) {
+    if (err) {
+        logger.debug("open 步骤出错 "+err);
+      return callback(err);
+    }
+    db.collection('posts',function(err,collection){
+      if (err) {
+        logger.debug("collection 步骤出错 "+err);
+        mongodb.close();
+      }
+      collection.remove({
+        "name": name,
+        "time.day":day,
+        "title":title
+      },{
+        w:1
+      },function(err){
+        mongodb.close();
+        if (err) {
+        logger.debug("remove 步骤出错 "+err);
+        return callback(err);
+        }
+        callback(null);
+      })
+    })
+  })
 }

@@ -137,9 +137,27 @@ router.get('/u/:name/:day/:title',function(req,res){
   });
 });
 
-router.get('')
-    /* 退出 */
-    //通过把 req.session.user 赋值 null ，实现用户的退出。
+/* 编辑页面 */
+router.get('/u/:name/:day/:title',checkLogin);
+router.get('/u/:name/:day/:title',function (req,res) {
+    var currentUser = req.session.user;
+    Post.edit(currentUser.name,req,params.day,req.params.title,function(err,post){
+        if (err) {
+            req.flash('error',err);
+            return res.redirect('back');
+        }
+    res.render('edit',{
+        title:'编辑',
+        post:post,
+        user:req.session.user,
+        success:req.flash('success').toString(),
+        err:req.flash('error').toString()
+        });
+    });
+});
+
+/* 退出 */
+//通过把 req.session.user 赋值 null ，实现用户的退出。
 router.get('/logout', checkLogin);
 router.get('/logout', function(req, res) {
     req.session.user = null;
