@@ -1,1 +1,12 @@
 <%- include header%>
+<form class="ui-form" action="/edit/<%= post.name%>/<%= post.time.day%>/<%= post.title%>" method="post" accept-charset="utf-8">
+<div class="ui-from-group">
+<input class="ui-form-input ui-form-ele" value="<%= post.title%>" type="text" name="title" disabled /></div>
+<div class="ui-from-group">
+<textarea class="ui-form-ele" name="post" rows="20" cols="80"><%= post.post%></textarea>
+</div>
+<div class="ui-from-group">
+<button class="ui-btn ui-btn-primary" type="submit">保存修改</button>
+</div>
+</form>
+<%- include footer%>

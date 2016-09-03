@@ -138,10 +138,11 @@ router.get('/u/:name/:day/:title',function(req,res){
 });
 
 /* 编辑页面 */
-router.get('/u/:name/:day/:title',checkLogin);
-router.get('/u/:name/:day/:title',function (req,res) {
+router.get('/edit/:name/:day/:title', checkLogin);
+router.get('/edit/:name/:day/:title', function (req,res) {
+    logger.debug('跳转到编辑页面');
     var currentUser = req.session.user;
-    Post.edit(currentUser.name,req,params.day,req.params.title,function(err,post){
+    Post.edit(currentUser.name,req.params.day,req.params.title,function(err,post){
         if (err) {
             req.flash('error',err);
             return res.redirect('back');
@@ -151,7 +152,7 @@ router.get('/u/:name/:day/:title',function (req,res) {
         post:post,
         user:req.session.user,
         success:req.flash('success').toString(),
-        err:req.flash('error').toString()
+        error:req.flash('error').toString()
         });
     });
 });
@@ -267,6 +268,22 @@ router.post('/upload', checkLogin);
 router.post('/upload', upload.single('field'), function(req, res) {
     req.flash('success', '文件上传成功!');
     res.redirect('/upload');
+});
+
+/* 发送编辑文章请求 */
+router.post('/edit/:name/:day/:title', checkLogin);
+router.post('/edit/:name/:day/:title', function (req,res) {
+    logger.debug('发送编辑文章请求');
+    var currentUser = req.session.user;
+    Post.update(currentUser.name,req.params.day,req.params.title,req.body.post,function(err){
+        var url = encodeURI('/u/' + req.params.name + '/' + req.params.day + '/' + req.params.title);
+        if (err) {
+            req.flash('error',err);
+            return res.redirect(url);
+        }
+            req.flash('success','修改成功！');
+            return res.redirect(url);
+    });
 });
 
 module.exports = router;
