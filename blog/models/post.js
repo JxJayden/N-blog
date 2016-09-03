@@ -10,7 +10,6 @@ function Post(name,title,post) {
 
 module.exports = Post;
 
-
 // save
 Post.prototype.save = function(callback) {
   var date = new Date();

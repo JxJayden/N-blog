@@ -13,8 +13,6 @@ body {
     margin: 2em auto;
     padding: 0 2em;
     background-color: #fff;
-    /* background-image: url('../images/texture.png');  */
-    image-rendering: -webkit-optimize-contrast;
 }
 
 p {
