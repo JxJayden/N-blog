@@ -157,6 +157,20 @@ router.get('/edit/:name/:day/:title', function (req,res) {
     });
 });
 
+/* 删除 */
+router.get('/remove/:name/:day/:title',checkLogin);
+router.get('/remove/:name/:day/:title',function(req,res){
+    var currentUser = req.session.user;
+    Post.remove(currentUser.name,req.params.day,req.params.title,function(err){
+        if (err) {
+            req.flash('error',err);
+            return res.redirect('back');
+        }
+        req.flash('success','删除成功！');
+        res.redirect('/');
+    });
+});
+
 /* 退出 */
 //通过把 req.session.user 赋值 null ，实现用户的退出。
 router.get('/logout', checkLogin);

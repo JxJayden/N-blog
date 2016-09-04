@@ -190,6 +190,7 @@ Post.update = function (name,day,title,post,callback) {
 
 // remove
 Post.remove = function (name,day,title,callback) {
+  logger.info('remove post start');
   mongodb.open(function (err,db) {
     if (err) {
         logger.debug("open 步骤出错 "+err);
