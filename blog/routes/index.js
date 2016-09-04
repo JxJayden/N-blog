@@ -5,6 +5,7 @@ var flash = require('connect-flash');
 var User = require('../models/user');
 var logger = require('log4js').getLogger("router");
 var Post = require('../models/post.js');
+var Comment = require('../models/comment.js');
 var multer = require('multer');
 
 // 上传文件的方法 destination：文件保存的地方，filename：文件名
@@ -299,7 +300,28 @@ router.post('/edit/:name/:day/:title', function (req,res) {
             return res.redirect(url);
     });
 });
-
+/* 发送留言请求 */
+router.post('/u/:name/:day/:title',function (req,res) {
+    var date = new Date(),
+    time = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
+    var comment = {
+        name:req.body.name,
+        email:req.body.email,
+        website:req.body.website,
+        time:time,
+        content:req.body.content
+    };
+    logger.debug(JSON.stringify(comment));
+    var newComment = new Comment(req.params.name,req.params.day,req.params.title,comment);
+    newComment.save(function (err) {
+        if (err) {
+            req.flash('error',err);
+            return res.redirect('back');
+        }
+        req.flash('success','修改成功！');
+        res.redirect('back');
+    });
+});
 module.exports = router;
 
 

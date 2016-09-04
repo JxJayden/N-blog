@@ -76,7 +76,8 @@ article {
     border-bottom: 1px solid #ccc;
 }
 
-article a {
+article a,
+.ui-comment a {
     text-decoration: none;
     color: #CB1B45;
 }
@@ -112,7 +113,7 @@ article a:hover {
     margin-bottom: 0.5em;
 }
 
-.ui-from-group {
+.ui-form-group {
     margin-bottom: 20px;
 }
 
@@ -133,11 +134,28 @@ article a:hover {
     border-color: rgba(88, 178, 220, 1);
     box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.075), 0 0 8px rgba(88, 178, 220, 0.9);
 }
-.ui-form-input:disabled{
+
+.ui-form-input:disabled {
     background-color: #DB4D6D;
     color: #fff;
     border-color: #DB4D6D;
+    outline: 0;
 }
+
+.ui-form-input:-moz-read-only {
+    background-color: #DB4D6D;
+    color: #fff;
+    border-color: #DB4D6D;
+    outline: 0;
+}
+
+.ui-form-input:read-only {
+    background-color: #DB4D6D;
+    color: #fff;
+    border-color: #DB4D6D;
+    outline: 0;
+}
+
 .ui-btn {
     display: inline-block;
     padding: .5em 1em;
