@@ -1,4 +1,5 @@
-var mongodb = require('./db');
+var MongoClient = require('mongodb').MongoClient;
+var settings = require('../settings');
 var logger = require('log4js').getLogger("post");
 var markdown = require('markdown').markdown;
 
@@ -31,15 +32,17 @@ Post.prototype.save = function(callback) {
       comments:[]
   };
   //打开数据库
-  mongodb.open(function (err, db) {
+  MongoClient.connect(settings.url,function (err, db) {
     if (err) {
-        logger.debug("open 步骤出错 "+err);
+      logger.debug("open 步骤出错 "+err);
       return callback(err);
     }
+    logger.debug('Connection established to', settings.url);
+
     //读取 posts 集合
     db.collection('posts', function (err, collection) {
       if (err) {
-        mongodb.close();
+        db.close();
         logger.debug("collection 步骤出错 "+err);
         return callback(err);
       }
@@ -47,7 +50,7 @@ Post.prototype.save = function(callback) {
       collection.insert(post, {
         safe: true
       }, function (err) {
-        mongodb.close();
+        db.close();
         if (err) {
         logger.debug("insert 步骤出错 "+err);
           return callback(err);//失败！返回 err
@@ -61,15 +64,17 @@ Post.prototype.save = function(callback) {
 // getAll
 Post.getAll = function(name, callback) {
   //打开数据库
-  mongodb.open(function (err, db) {
-    if (err) {
-        logger.debug("open 步骤出错 "+err);
+  MongoClient.connect(settings.url,function (err, db) {
+      if (err) {
+      logger.debug("open 步骤出错 "+err);
       return callback(err);
     }
+    logger.debug('Connection established to', settings.url);
+
     //读取 posts 集合
     db.collection('posts', function(err, collection) {
       if (err) {
-        mongodb.close();
+        db.close();
         logger.debug("collection 步骤出错 "+err);
         return callback(err);
       }
@@ -81,9 +86,9 @@ Post.getAll = function(name, callback) {
       collection.find(query).sort({
         time: -1
       }).toArray(function (err, docs) {
-        mongodb.close();
+        db.close();
         if (err) {
-        logger.debug("find 步骤出错 "+err);
+          logger.debug("find 步骤出错 "+err);
           return callback(err);//失败！返回 err
         }
         logger.info(docs);
@@ -99,15 +104,16 @@ Post.getAll = function(name, callback) {
 
 // getOne
 Post.getOne = function(name,day,title,callback){
-  mongodb.open(function(err,db){
+  MongoClient.connect(settings.url,function (err, db) {
     if (err) {
         logger.debug("open 步骤出错 "+err);
       return callback(err);
     }
+    logger.debug('Connection established to', settings.url);
     db.collection('posts',function (err,collection) {
       // 处理错误
       if (err) {
-        mongodb.close();
+        db.close();
         logger.debug("collection 步骤出错 "+err);
         callback(err);
       }
@@ -116,7 +122,7 @@ Post.getOne = function(name,day,title,callback){
         "time.day": day,
         "title": title
       },function(err,doc){
-        mongodb.close();
+        db.close();
         if (err) {
         logger.debug("findOne 步骤出错 "+err);
           return callback(err);
@@ -137,15 +143,16 @@ Post.getOne = function(name,day,title,callback){
 // edit
 Post.edit = function (name,day,title,callback) {
   logger.info('edit post in mongodb start');
-  mongodb.open(function(err,db){
+  MongoClient.connect(settings.url,function (err, db) {
     if (err) {
-        logger.debug("open 步骤出错 "+err);
+      logger.debug("open 步骤出错 "+err);
       return callback(err);
     }
+    logger.debug('Connection established to', settings.url);
     db.collection('posts',function(err,collection){
       if (err) {
         logger.debug("collection 步骤出错 "+err);
-        mongodb.close();
+        db.close();
         return callback(err);
       }
       collection.findOne({
@@ -153,7 +160,7 @@ Post.edit = function (name,day,title,callback) {
         "time.day":day,
         "title":title
       },function (err,doc) {
-          mongodb.close();
+          db.close();
         if (err) {
         logger.debug("findOne 步骤出错 "+err);
           return callback(err);
@@ -168,13 +175,14 @@ Post.edit = function (name,day,title,callback) {
 // update
 Post.update = function (name,day,title,post,callback) {
   logger.info('update post in mongodb start');
-  mongodb.open(function(err,db){
+  MongoClient.connect(settings.url,function (err, db) {
     if (err) {
       return callback(err);
     }
+    logger.debug('Connection established to', settings.url);
     db.collection('posts',function (err,collection) {
       if (err) {
-        mongodb.close();
+        db.close();
         return callback(err);
       }
       collection.update({
@@ -184,7 +192,7 @@ Post.update = function (name,day,title,post,callback) {
       },{
         $set: {post: post}
       },function (err) {
-        mongodb.close();
+        db.close();
         if (err) {
           return callback(err);
         }
@@ -197,15 +205,16 @@ Post.update = function (name,day,title,post,callback) {
 // remove
 Post.remove = function (name,day,title,callback) {
   logger.info('remove post start');
-  mongodb.open(function (err,db) {
+  MongoClient.connect(settings.url,function (err, db) {
     if (err) {
-        logger.debug("open 步骤出错 "+err);
+      logger.debug("open 步骤出错 "+err);
       return callback(err);
     }
+    logger.debug('Connection established to', settings.url);
     db.collection('posts',function(err,collection){
       if (err) {
         logger.debug("collection 步骤出错 "+err);
-        mongodb.close();
+        db.close();
       }
       collection.remove({
         "name": name,
@@ -214,7 +223,7 @@ Post.remove = function (name,day,title,callback) {
       },{
         w:1
       },function(err){
-        mongodb.close();
+        db.close();
         if (err) {
         logger.debug("remove 步骤出错 "+err);
         return callback(err);

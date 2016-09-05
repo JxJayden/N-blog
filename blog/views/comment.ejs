@@ -23,11 +23,21 @@
  <input type="text" class="ui-form-input ui-form-ele" name="website" value="/u/<%= user.name%>" readonly >
  </div>
  <% } else{ %>
- <div class="ui-form-group"><label for="name" class="ui-label">姓名：</label><input type="text" class="ui-form-input ui-form-ele" name="name"></div>
- <div class="ui-form-group"><label for="email" class="ui-label">邮箱：</label><input type="text" class="ui-form-input ui-form-ele" name="email"></div>
- <div class="ui-form-group"><label for="website" class="ui-label"></label><input type="text" class="ui-form-input ui-form-ele" name="website" value="http://"></div>
+ <div class="ui-form-group">
+ <label for="name" class="ui-label">姓名：</label><input type="text" class="ui-form-input ui-form-ele" name="name">
+ </div>
+ <div class="ui-form-group">
+ <label for="email" class="ui-label">邮箱：</label><input type="text" class="ui-form-input ui-form-ele" name="email">
+ </div>
+ <div class="ui-form-group">
+ <label for="website" class="ui-label">个人主页：</label><input type="text" class="ui-form-input ui-form-ele" name="website" value="http://">
+ </div>
  <% } %>
- <div class="ui-form-group"><textarea class="ui-form-ele" name="content" cols="80" rows="5" placeholder="留言区"></textarea></div>
- <div class="ui-form-group"><button class="ui-btn ui-btn-primary" type="submit">留言</button></div>
+ <div class="ui-form-group">
+ <textarea class="ui-form-ele" name="content" cols="80" rows="5" placeholder="留言区。这里也可以使用 markdown 语法哦～"></textarea>
+ </div>
+ <div class="ui-form-group">
+ <button class="ui-btn ui-btn-primary" type="submit">留言</button>
+ </div>
 </form>
 

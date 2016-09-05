@@ -1,6 +1,5 @@
+// mongodb setting
 module.exports = {
   cookieSecret: 'myblog',
-  db: 'blogdb',
-  host: 'localhost',
-  port: 27017
+  url: 'mongodb://jayden:conquer@ds019936.mlab.com:19936/nblogdb'
 };
