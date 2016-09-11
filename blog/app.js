@@ -18,8 +18,11 @@ var app = express();
 app.use(session({
   // secret 用来防止篡改 cookie
   secret: settings.cookieSecret,
+  key: settings.db,//cookie name
   cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 days
-  url: settings.url
+  store: new MongoStore({
+  url: 'mongodb://localhost/blogdb'
+})
 }));
 
 // view engine setup
