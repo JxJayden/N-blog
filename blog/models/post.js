@@ -97,6 +97,44 @@ Post.getAll = function(name, callback) {
   });
 };
 
+// getTen
+Post.getTen = function(name,page,callback) {
+  mongodb.open(function(err,db){
+    if (err) {
+      logger.debug("open 步骤出错 "+err);
+      return callback(err);
+    }
+    db.collection('posts',function(err,collection){
+      if (err) {
+        mongodb.close();
+        return callback(err);
+      }
+      var query = {};
+      if (name) {
+        query.name = name;
+      }
+      collection.count(query,function (err,total) {
+        // 根据 query 对象查询，并跳过前 (page-1)*10 个结果，返回之后的 10 个结果
+        collection.find(query,{
+          skip: (page-1)*10,
+          limit: 10
+        }).sort({
+          time: -1
+        }).toArray(function (err,docs) {
+          mongodb.close();
+          if (err) {
+            return callback(err);
+          }
+          docs.forEach(function(doc){
+            doc.post = markdown.toHTML(doc.post);
+          });
+          callback(null,docs,total);
+        });
+      });
+    });
+  });
+}
+
 // getOne
 Post.getOne = function(name,day,title,callback){
   mongodb.open(function(err,db){
