@@ -262,3 +262,30 @@ Post.remove = function (name,day,title,callback) {
     });
   });
 };
+
+// getArchive
+Post.getArchive = function (callback) {
+  mongodb.open(function (err,db) {
+    if (err) {
+      return callback(err);
+    }
+    db.collection('posts',function(err,collection){
+      if (err) {
+        mongodb.close();
+        return callback(err);
+      }
+      // 返回只有 name、time、title 属性组成的文档数组
+      collection.find({},{
+        "name": 1,
+        "time": 1,
+        "title": 1
+      }).sort({time:-1}).toArray(function(err,docs){
+        mongodb.close();
+        if (err) {
+          return callback(err);
+        }
+        callback(null,docs);
+      });
+    });
+  });
+};
