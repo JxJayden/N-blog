@@ -151,6 +151,23 @@ router.get('/edit/:name/:day/:title', function(req, res) {
     });
 });
 
+/* 归档页面 */
+router.get('/archive', function(req, res) {
+    Post.getArchive(function(err, posts) {
+        if (err) {
+            req.flash('error', err);
+            req.redirect('/');
+        }
+        res.render('archive', {
+            title: '归档',
+            posts: posts,
+            user: req.session.user,
+            success: req.flash('success').toString(),
+            error: req.flash('error').toString()
+        });
+    });
+});
+
 /* 删除 */
 router.get('/remove/:name/:day/:title', checkLogin);
 router.get('/remove/:name/:day/:title', function(req, res) {
