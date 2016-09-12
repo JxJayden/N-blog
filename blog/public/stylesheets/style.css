@@ -114,7 +114,7 @@ article a:hover {
 }
 
 .ui-form-group {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .ui-form-ele {
@@ -123,10 +123,12 @@ article a:hover {
     border-radius: 0;
     background-color: #fff;
     border: 1px solid #F596AA;
+    margin-bottom: 10px;
 }
 
 .ui-form-input {
     height: 20px;
+
 }
 
 .ui-form-input:focus {
@@ -241,10 +243,34 @@ article a:hover {
     color: #999999;
     margin-right: 1.2em;
 }
+
 .archive a {
     text-decoration: none;
     color: #000;
 }
-.archive a:hover{
+
+.archive a:hover {
     color: #D0104C;
+}
+
+.tag {
+    background-color: #DB4D6D;
+    text-decoration: none;
+    border-radius: 2px;
+    font-size: 14px;
+    color: #fff;
+    display: inline-block;
+    padding: 0 8px;
+    margin-bottom: 8px;
+}
+
+.tag:hover {
+    text-decoration: none;
+    background-color: #D0104C;
+    color: #fff;
+    /* -webkit-transition: color .2s linear; */
+}
+.ui-tags{
+    margin-top: 10px;
+    line-height: 24px;
 }
