@@ -3,9 +3,10 @@ var settings = require('../settings');
 var logger = require('log4js').getLogger("post");
 var markdown = require('markdown').markdown;
 
-function Post(name,title,post) {
+function Post(name,title,tags,post) {
  this.name = name;
  this.title = title;
+ this.tags = tags;
  this.post = post;
 }
 
@@ -28,6 +29,7 @@ Post.prototype.save = function(callback) {
       name: this.name,
       time: time,
       title: this.title,
+      tags: this.tags,
       post: this.post,
       comments:[]
   };
@@ -133,6 +135,7 @@ Post.getTen = function(name,page,callback) {
           docs.forEach(function(doc){
             doc.post = markdown.toHTML(doc.post);
           });
+          logger.info(JSON.stringify(docs));
           callback(null,docs,total);
         });
       });
@@ -298,3 +301,27 @@ Post.getArchive = function (callback) {
     });
   });
 };
+
+// getAllTags
+Post.getTags = function (callback) {
+  mongodb.open(function(err,db){
+    if (err) {
+      logger.debug("open步骤出错!");
+      return callback(err);
+    }
+    db.collection('posts',function(err,collection){
+      if (err) {
+        logger.debug("collection 步骤出错！");
+        mongodb.close();
+        return callback(err);
+      }
+      collection.distinct('tags',function(err,docs){
+        mongodb.close();
+        if (err) {
+          return callback(err);
+        }
+        callback(null,docs);
+      });
+    });
+  });
+}

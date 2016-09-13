@@ -182,6 +182,24 @@ router.get('/remove/:name/:day/:title', function(req, res) {
     });
 });
 
+/* 标签页面 */
+router.get('/tags',function (req,res) {
+    Post.getTags(function(err,posts){
+        if (err) {
+            res.flash('error',err);
+            return res.redirect('/');
+        }
+        res.render('tags',{
+            title: "标签",
+            posts: posts,
+            user: req.session.user,
+            success: req.flash('success').toString(),
+            error: req.flash('error').toString()
+        })
+    })
+})
+
+
 /* 退出 */
 //通过把 req.session.user 赋值 null ，实现用户的退出。
 router.get('/logout', checkLogin);
@@ -276,8 +294,9 @@ router.post('/login', function(req, res) {
 /* 发表文章 */
 router.post('/post', checkLogin);
 router.post('/post', function(req, res) {
-    var currentUser = req.session.user;
-    var post = new Post(currentUser.name, req.body.title, req.body.post)
+    var currentUser = req.session.user,
+        tags = [req.body.tag1, req.body.tag2, req.body.tag3],
+        post = new Post(currentUser.name, req.body.title, tags, req.body.post);
     post.save(function(err) {
         if (err) {
             req.flash('error', err);
