@@ -3,6 +3,11 @@
 <div class="ui-form-group">
 <input class="ui-form-input ui-form-ele" value="<%= post.title%>" type="text" name="title" disabled /></div>
 <div class="ui-form-group">
+<%post.tags.forEach(function(tag,index) { if (tag) {%>
+  <input placeholder="标签" class="ui-form-input ui-form-ele" type="text" name="tag<%= index+1%>" value="<%= tag %>" disabled>
+<% }})%>
+</div>
+<div class="ui-form-group">
 <textarea class="ui-form-ele" name="post" rows="20" cols="80"><%= post.post%></textarea>
 </div>
 <div class="ui-form-group">
