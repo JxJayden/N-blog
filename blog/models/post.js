@@ -331,24 +331,20 @@ Post.getTag = function(tag,callback){
         logger.debug("collection 步骤出错 "+err);
         callback(err);
       }
-      collection.findOne({
-        "name": name,
-        "time.day": day,
-        "title": title
-      },function(err,doc){
+      collection.find({
+        "tags":tag
+      },{
+        "name": 1,
+        "time": 1,
+        "title": 1
+      }).sort({
+        time: -1
+      }).toArray(function(err,docs){
         mongodb.close();
         if (err) {
-        logger.debug("findOne 步骤出错 "+err);
           return callback(err);
         }
-        logger.info(JSON.stringify(doc));
-        if (doc) {
-        doc.post = markdown.toHTML(doc.post);
-        doc.comments.forEach(function(comment){
-          comment.content = markdown.toHTML(comment.content);
-        })
-        }
-        callback(null,doc);
+        callback(null, docs);
       });
     });
   });
