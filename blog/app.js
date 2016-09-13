@@ -1,17 +1,17 @@
 var express = require('express'),
-   path = require('path'),
-   favicon = require('serve-favicon'),
-   logger = require('morgan'),
-   cookieParser = require('cookie-parser'),
-   bodyParser = require('body-parser'),
-   routes = require('./routes/index'),
-   settings = require('./settings'),
-   flash = require('connect-flash'),
-   users = require('./routes/users'),
-   session = require('express-session'),
-   multer  = require('multer'),
-   MongoStore = require('connect-mongo')(session),
-   app = express();
+    path = require('path'),
+    favicon = require('serve-favicon'),
+    logger = require('morgan'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    routes = require('./routes/index'),
+    settings = require('./settings'),
+    flash = require('connect-flash'),
+    users = require('./routes/users'),
+    session = require('express-session'),
+    multer  = require('multer'),
+    MongoStore = require('connect-mongo')(session),
+    app = express();
 
 // sesstion
 app.use(session({

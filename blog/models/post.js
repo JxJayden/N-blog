@@ -8,7 +8,7 @@ function Post(name,title,tags,post) {
  this.title = title;
  this.tags = tags;
  this.post = post;
-}
+};
 
 module.exports = Post;
 
@@ -141,7 +141,7 @@ Post.getTen = function(name,page,callback) {
       });
     });
   });
-}
+};
 
 // getOne
 Post.getOne = function(name,day,title,callback){
@@ -179,7 +179,7 @@ Post.getOne = function(name,day,title,callback){
       });
     });
   });
-}
+};
 
 // edit
 Post.edit = function (name,day,title,callback) {
@@ -324,4 +324,37 @@ Post.getTags = function (callback) {
       });
     });
   });
-}
+};
+
+// getPostsByTag
+Post.getTag = function(tag,callback){
+  mongodb.open(function(err,db){
+    if (err) {
+        logger.debug("open 步骤出错 "+err);
+      return callback(err);
+    }
+    db.collection('posts',function (err,collection) {
+      // 处理错误
+      if (err) {
+        mongodb.close();
+        logger.debug("collection 步骤出错 "+err);
+        callback(err);
+      }
+      collection.find({
+        "tags":tag
+      },{
+        "name": 1,
+        "time": 1,
+        "title": 1
+      }).sort({
+        time: -1
+      }).toArray(function(err,docs){
+        mongodb.close();
+        if (err) {
+          return callback(err);
+        }
+        callback(null, docs);
+      });
+    });
+  });
+};

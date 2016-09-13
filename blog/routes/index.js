@@ -195,10 +195,26 @@ router.get('/tags',function (req,res) {
             user: req.session.user,
             success: req.flash('success').toString(),
             error: req.flash('error').toString()
-        })
-    })
-})
+        });
+    });
+});
 
+/* 标签对应的文章列表页面 */
+router.get('/tags/:tag',function(req,res){
+    Post.getTag(req.params.tag,function(err,posts) {
+        if (err) {
+            req.flash('error',err);
+            return res.redirect('/');
+        }
+        res.render('tag',{
+          title: 'TAG '+req.params.tag,
+          posts: posts,
+          user:req.session.user,
+          success: req.flash('success').toString(),
+          error: req.flash('error').toString()
+        });
+    });
+});
 
 /* 退出 */
 //通过把 req.session.user 赋值 null ，实现用户的退出。
