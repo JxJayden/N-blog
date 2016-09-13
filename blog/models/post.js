@@ -1,7 +1,7 @@
-var MongoClient = require('mongodb').MongoClient;
-var settings = require('../settings');
-var logger = require('log4js').getLogger("post");
-var markdown = require('markdown').markdown;
+var MongoClient = require('mongodb').MongoClient,
+    settings = require('../settings'),
+    logger = require('log4js').getLogger("post"),
+    markdown = require('markdown').markdown;
 
 function Post(name,title,tags,post) {
  this.name = name;

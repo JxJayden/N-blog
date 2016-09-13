@@ -1,6 +1,7 @@
-var MongoClient = require('mongodb').MongoClient;
-var settings = require('../settings');
-var logger = require('log4js').getLogger("models");
+var MongoClient = require('mongodb').MongoClient,
+    settings = require('../settings'),
+    logger = require('log4js').getLogger("models");
+
 function User(user) {
     this.name = user.name;
     this.password = user.password;
