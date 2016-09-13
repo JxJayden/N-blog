@@ -328,7 +328,7 @@ Post.getTags = function (callback) {
 
 // getPostsByTag
 Post.getTag = function(tag,callback){
-  mongodb.open(function(err,db){
+  MongoClient.connect(settings.url,function(err,db){
     if (err) {
         logger.debug("open 步骤出错 "+err);
       return callback(err);
@@ -336,7 +336,7 @@ Post.getTag = function(tag,callback){
     db.collection('posts',function (err,collection) {
       // 处理错误
       if (err) {
-        mongodb.close();
+        db.close();
         logger.debug("collection 步骤出错 "+err);
         callback(err);
       }
@@ -349,7 +349,7 @@ Post.getTag = function(tag,callback){
       }).sort({
         time: -1
       }).toArray(function(err,docs){
-        mongodb.close();
+        db.close();
         if (err) {
           return callback(err);
         }
