@@ -1,12 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var crypto = require('crypto');
-var flash = require('connect-flash');
-var User = require('../models/user');
-var logger = require('log4js').getLogger("router");
-var Post = require('../models/post.js');
-var Comment = require('../models/comment.js');
-var multer = require('multer');
+var express = require('express'),
+    router = express.Router(),
+    crypto = require('crypto'),
+    flash = require('connect-flash'),
+    User = require('../models/user'),
+    logger = require('log4js').getLogger("router"),
+    Post = require('../models/post.js'),
+    Comment = require('../models/comment.js'),
+    multer = require('multer');
 
 // 上传文件的方法 destination：文件保存的地方，filename：文件名
 var storage = multer.diskStorage({
