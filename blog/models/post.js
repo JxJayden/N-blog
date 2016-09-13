@@ -304,7 +304,7 @@ Post.getArchive = function (callback) {
 
 // getAllTags
 Post.getTags = function (callback) {
-  mongodb.open(function(err,db){
+  MongoClient.connect(settings.url,function(err,db){
     if (err) {
       logger.debug("open步骤出错!");
       return callback(err);
@@ -312,11 +312,11 @@ Post.getTags = function (callback) {
     db.collection('posts',function(err,collection){
       if (err) {
         logger.debug("collection 步骤出错！");
-        mongodb.close();
+        db.close();
         return callback(err);
       }
       collection.distinct('tags',function(err,docs){
-        mongodb.close();
+        db.close();
         if (err) {
           return callback(err);
         }
