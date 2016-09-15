@@ -31,7 +31,8 @@ Post.prototype.save = function(callback) {
       title: this.title,
       tags: this.tags,
       post: this.post,
-      comments:[]
+      comments:[],
+      pv: 0
   };
   //打开数据库
   MongoClient.connect(settings.url,function (err, db) {
@@ -163,17 +164,30 @@ Post.getOne = function(name,day,title,callback){
         "time.day": day,
         "title": title
       },function(err,doc){
-        db.close();
         if (err) {
-        logger.debug("findOne 步骤出错 "+err);
+          logger.debug("findOne 步骤出错 "+err);
+          mongodb.close();
           return callback(err);
         }
         logger.info(JSON.stringify(doc));
         if (doc) {
+          collection.update({
+            "name": name,
+            "time.day": day,
+            "title": title
+          },{
+            $inc: {"pv": 1}
+          },function(err){
+              mongodb.close();
+            if (err) {
+              logger.debug("添加pv计数出错");
+              return callback(err);
+            }
+          });
         doc.post = markdown.toHTML(doc.post);
         doc.comments.forEach(function(comment){
           comment.content = markdown.toHTML(comment.content);
-        })
+        });
         }
         callback(null,doc);
       });
