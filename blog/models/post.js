@@ -166,7 +166,7 @@ Post.getOne = function(name,day,title,callback){
       },function(err,doc){
         if (err) {
           logger.debug("findOne 步骤出错 "+err);
-          mongodb.close();
+          db.close();
           return callback(err);
         }
         logger.info(JSON.stringify(doc));
@@ -178,7 +178,7 @@ Post.getOne = function(name,day,title,callback){
           },{
             $inc: {"pv": 1}
           },function(err){
-              mongodb.close();
+              db.close();
             if (err) {
               logger.debug("添加pv计数出错");
               return callback(err);

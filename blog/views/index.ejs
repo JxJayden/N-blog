@@ -1,5 +1,5 @@
 <%- include header %>
-<%if(user&&posts){%>
+<%if(posts){%>
 <% posts.forEach(function(post,index){ %>
 <article>
 <p>
@@ -20,7 +20,7 @@
 <%- post.post %>
 </article>
 <%}) %>
+<%- include paging %>
 <%}else{%>
 <%}%>
-<%- include paging %>
 <%- include footer %>
