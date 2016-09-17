@@ -216,6 +216,23 @@ router.get('/tags/:tag',function(req,res){
     });
 });
 
+/* 搜索 */
+router.get('/search',function (req,res) {
+    Post.search(req.query.keyword,function(err,posts){
+        if (err) {
+            req.flash('error',err);
+            return res.redirect('/');
+        }
+        res.render('search',{
+            title: "搜索 "+req.query.keyword+" 的结果",
+            posts: posts,
+            user: req.session.user,
+            success: posts.length>0?req.flash('success').toString():'没有相关的文章',
+            error:req.flash('error').toString()
+        });
+    });
+});
+
 /* 退出 */
 //通过把 req.session.user 赋值 null ，实现用户的退出。
 router.get('/logout', checkLogin);
