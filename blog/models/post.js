@@ -147,7 +147,6 @@ Post.getTen = function(name, page, callback) {
 
 // getOne
 Post.getOne = function(name, day, title, callback) {
-    logger.info('day is ' + day);
     MongoClient.connect(settings.url, function(err, db) {
         if (err) {
             logger.debug("open 步骤出错 " + err);
@@ -388,8 +387,8 @@ Post.getTag = function(tag, callback) {
         db.collection('posts', function(err, collection) {
             // 处理错误
             if (err) {
-                db.close();
                 logger.debug("collection 步骤出错 " + err);
+                db.close();
                 callback(err);
             }
             collection.find({
@@ -474,7 +473,7 @@ Post.reprint = function(reprint_from, reprint_to, callback) {
                         date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
                 }
 
-                delete doc._id; //注意要删掉原来的 _id
+                delete doc._id;
 
                 doc.name = reprint_to.name;
                 doc.head = reprint_to.head;
