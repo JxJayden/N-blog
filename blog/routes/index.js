@@ -169,30 +169,30 @@ router.get('/archive', function(req, res) {
 });
 
 /* 转载 */
-router.get('/reprint/:name/:day/:title',checkLogin);
-router.get('/reprint/:name/:day/:title',function (req,res) {
-    Post.edit(req.params.name,req.params.day,req.params.title,function (err,post) {
+router.get('/reprint/:name/:day/:title', checkLogin);
+router.get('/reprint/:name/:day/:title', function(req, res) {
+    Post.edit(req.params.name, req.params.day, req.params.title, function(err, post) {
         if (err) {
-            req.flash('error',err);
-            return res.redirect(back);
+            req.flash('error', err);
+            return res.redirect('back');
         }
         var currentUser = req.session.user,
-        reprint_from={
-            name: post.name,
-            day: post.time.day,
-            title: post.title
-        },
-        reprint_to = {
-            name: currentUser.name,
-            head: currentUser.head
-        };
-        Post.reprint(reprint_from,reprint_to,function(err,post){
+            reprint_from = {
+                name: post.name,
+                day: post.time.day,
+                title: post.title
+            },
+            reprint_to = {
+                name: currentUser.name,
+                head: currentUser.head
+            };
+        Post.reprint(reprint_from, reprint_to, function(err, post) {
             if (err) {
-                req.flash('error',err);
-                return res.redirect(back);
+                req.flash('error', err);
+                return res.redirect('/');
             }
-            req.flash('success','转载成功！');
-            var url = encodeURI('/u/'+post.name+'/'+post.time.day+'/'+post.title);
+            req.flash('success', '转载成功！');
+            var url = encodeURI('/u/' + post.name + '/' + post.time.day + '/' + post.title);
             res.redirect(url);
         });
     });
@@ -205,8 +205,8 @@ router.get('/remove/:name/:day/:title', function(req, res) {
     var currentUser = req.session.user;
     Post.remove(currentUser.name, req.params.day, req.params.title, function(err) {
         if (err) {
-            req.flash('error', err);
-            return res.redirect('back');
+            req.flash('error', '删除出错！');
+            return res.redirect('/');
         }
         req.flash('success', '删除成功！');
         res.redirect('/');
@@ -214,13 +214,13 @@ router.get('/remove/:name/:day/:title', function(req, res) {
 });
 
 /* 标签页面 */
-router.get('/tags',function (req,res) {
-    Post.getTags(function(err,posts){
+router.get('/tags', function(req, res) {
+    Post.getTags(function(err, posts) {
         if (err) {
-            res.flash('error',err);
+            res.flash('error', err);
             return res.redirect('/');
         }
-        res.render('tags',{
+        res.render('tags', {
             title: "标签",
             posts: posts,
             user: req.session.user,
@@ -231,35 +231,35 @@ router.get('/tags',function (req,res) {
 });
 
 /* 标签对应的文章列表页面 */
-router.get('/tags/:tag',function(req,res){
-    Post.getTag(req.params.tag,function(err,posts) {
+router.get('/tags/:tag', function(req, res) {
+    Post.getTag(req.params.tag, function(err, posts) {
         if (err) {
-            req.flash('error',err);
+            req.flash('error', err);
             return res.redirect('/');
         }
-        res.render('tag',{
-          title: 'TAG '+req.params.tag,
-          posts: posts,
-          user:req.session.user,
-          success: req.flash('success').toString(),
-          error: req.flash('error').toString()
+        res.render('tag', {
+            title: 'TAG ' + req.params.tag,
+            posts: posts,
+            user: req.session.user,
+            success: req.flash('success').toString(),
+            error: req.flash('error').toString()
         });
     });
 });
 
 /* 搜索 */
-router.get('/search',function (req,res) {
-    Post.search(req.query.keyword,function(err,posts){
+router.get('/search', function(req, res) {
+    Post.search(req.query.keyword, function(err, posts) {
         if (err) {
-            req.flash('error',err);
+            req.flash('error', err);
             return res.redirect('/');
         }
-        res.render('search',{
-            title: "搜索 "+req.query.keyword+" 的结果",
+        res.render('search', {
+            title: "搜索 " + req.query.keyword + " 的结果",
             posts: posts,
             user: req.session.user,
-            success: posts.length>0?req.flash('success').toString():'没有相关的文章',
-            error:req.flash('error').toString()
+            success: posts.length > 0 ? req.flash('success').toString() : '没有相关的文章',
+            error: req.flash('error').toString()
         });
     });
 });
@@ -417,8 +417,8 @@ router.post('/u/:name/:day/:title', function(req, res) {
 });
 
 /* 404 */
-router.use(function (req, res) {
-  res.render("404");
+router.use(function(req, res) {
+    res.render("404");
 });
 module.exports = router;
 
