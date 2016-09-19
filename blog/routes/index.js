@@ -168,6 +168,37 @@ router.get('/archive', function(req, res) {
     });
 });
 
+/* 转载 */
+router.get('/reprint/:name/:day/:title',checkLogin);
+router.get('/reprint/:name/:day/:title',function (req,res) {
+    Post.edit(req.params.name,req.params.day,req.params.title,function (err,post) {
+        if (err) {
+            req.flash('error',err);
+            return res.redirect(back);
+        }
+        var currentUser = req.session.user,
+        reprint_from={
+            name: post.name,
+            day: post.time.day,
+            title: post.title
+        },
+        reprint_to = {
+            name: currentUser.name,
+            head: currentUser.head
+        };
+        Post.reprint(reprint_from,reprint_to,function(err,post){
+            if (err) {
+                req.flash('error',err);
+                return res.redirect(back);
+            }
+            req.flash('success','转载成功！');
+            var url = encodeURI('/u/'+post.name+'/'+post.time.day+'/'+post.title);
+            res.redirect(url);
+        });
+    });
+});
+
+
 /* 删除 */
 router.get('/remove/:name/:day/:title', checkLogin);
 router.get('/remove/:name/:day/:title', function(req, res) {
@@ -212,6 +243,23 @@ router.get('/tags/:tag',function(req,res){
           user:req.session.user,
           success: req.flash('success').toString(),
           error: req.flash('error').toString()
+        });
+    });
+});
+
+/* 搜索 */
+router.get('/search',function (req,res) {
+    Post.search(req.query.keyword,function(err,posts){
+        if (err) {
+            req.flash('error',err);
+            return res.redirect('/');
+        }
+        res.render('search',{
+            title: "搜索 "+req.query.keyword+" 的结果",
+            posts: posts,
+            user: req.session.user,
+            success: posts.length>0?req.flash('success').toString():'没有相关的文章',
+            error:req.flash('error').toString()
         });
     });
 });
@@ -366,6 +414,11 @@ router.post('/u/:name/:day/:title', function(req, res) {
         req.flash('success', '修改成功！');
         res.redirect('back');
     });
+});
+
+/* 404 */
+router.use(function (req, res) {
+  res.render("404");
 });
 module.exports = router;
 
