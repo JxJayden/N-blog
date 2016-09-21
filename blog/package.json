@@ -21,6 +21,7 @@
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
-    "log4js": "^0.6.38"
+    "log4js": "^0.6.38",
+    "quill": "^1.0.4"
   }
 }
