@@ -497,7 +497,7 @@ Post.reprint = function(reprint_from, reprint_to, callback) {
           if (err) {
             return callback(err);
           }
-          callback(err, post.ops[0]);
+          callback(null, post.ops[0]);
         });
       });
     });
