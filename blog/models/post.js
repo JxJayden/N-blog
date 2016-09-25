@@ -8,7 +8,7 @@ function Post(name, title, tags, post) {
     this.title = title;
     this.tags = tags;
     this.post = post;
-};
+}
 
 module.exports = Post;
 

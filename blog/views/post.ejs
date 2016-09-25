@@ -8,9 +8,18 @@
  <input placeholder="标签" class="ui-form-input ui-form-ele" type="text" name="tag3">
 </div>
 <div class="ui-form-group">
+<div id="editor">
+
+</div>
 <textarea class="ui-form-ele" name="post" placeholder="文章内容，你可以使用 markdown 来编辑哦~" rows="20" cols="80"></textarea></div>
 <div class="ui-from-group">
 <button class="ui-btn ui-btn-primary" type="submit">发表</button>
 </div>
 </form>
+<script src="/node_modules/quill/dist/quill.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+ var editor = new Quill('#editor',{
+  theme: 'snow'
+ });
+</script>
 <%- include footer%>
