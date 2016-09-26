@@ -7,14 +7,26 @@
  <input placeholder="标签" class="ui-form-input ui-form-ele" type="text" name="tag2">
  <input placeholder="标签" class="ui-form-input ui-form-ele" type="text" name="tag3">
 </div>
-<textarea class="ui-form-ele" name="post" style="display:none;"></textarea>
-
-<div id="editor"></div>
-
+<div class="ui-from-group">
+<textarea id="editor" style="display:none;" name="post"></textarea></div>
 <div class="ui-from-group">
 <button class="ui-btn ui-btn-primary" type="submit">发表</button>
 </div>
 </form>
-<script src="/quill/dist/quill.min.js"></script>
-<script src="/javascripts/common.js" type="text/javascript"></script>
+ <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
+<script>
+var simplemde = new SimpleMDE({
+  element: document.getElementById("editor"),
+  placeholder:'请愉快地使用 markdown 写作吧！～',
+  renderingConfig: {
+    singleLineBreaks: false,
+    codeSyntaxHighlighting: true,
+  },
+  forceSync: true,
+  spellChecker:false,
+  styleSelectedText: false,
+  showIcons: ["code", "table"]
+ });
+</script>
 <%- include footer%>
