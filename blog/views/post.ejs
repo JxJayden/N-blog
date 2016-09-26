@@ -8,25 +8,12 @@
  <input placeholder="标签" class="ui-form-input ui-form-ele" type="text" name="tag3">
 </div>
 <div class="ui-from-group">
-<textarea id="editor" style="display:none;" name="post"></textarea></div>
+<textarea id="post_editor" style="display:none;" name="post"></textarea></div>
 <div class="ui-from-group">
 <button class="ui-btn ui-btn-primary" type="submit">发表</button>
 </div>
 </form>
  <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
  <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
-<script>
-var simplemde = new SimpleMDE({
-  element: document.getElementById("editor"),
-  placeholder:'请愉快地使用 markdown 写作吧！～',
-  renderingConfig: {
-    singleLineBreaks: false,
-    codeSyntaxHighlighting: true,
-  },
-  forceSync: true,
-  spellChecker:false,
-  styleSelectedText: false,
-  showIcons: ["code", "table"]
- });
-</script>
+<script src="/javascripts/common.js"></script>
 <%- include footer%>

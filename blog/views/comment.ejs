@@ -1,4 +1,7 @@
 <br />
+<div class="ui-comment">
+ <h2>留言区</h2>
+ </div>
 <% post.comments.forEach(function(comment,index){ %>
  <div class="ui-comment">
  <p>
@@ -34,10 +37,18 @@
  </div>
  <% } %>
  <div class="ui-form-group">
- <textarea class="ui-form-ele" name="content" cols="80" rows="5" placeholder="留言区。这里也可以使用 markdown 语法哦～"></textarea>
+ <textarea id="comment_editor" name="content" style="display:none;"></textarea>
  </div>
  <div class="ui-form-group">
  <button class="ui-btn ui-btn-primary" type="submit">留言</button>
  </div>
 </form>
-
+<style>
+.CodeMirror {
+    height:150px;
+    min-height:150px;
+}
+</style>
+ <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
+<script src="/javascripts/common.js"></script>
