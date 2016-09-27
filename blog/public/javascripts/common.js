@@ -10,7 +10,5 @@ var element = document.getElementById('edit_editor') || document.getElementById(
         forceSync: true,
         spellChecker: false,
         styleSelectedText: false,
-        toolbar: element.id === 'comment_editor' ? false : true,
-        status: element.id === 'comment_editor' ? false : true,
         showIcons: ["code"]
     });
