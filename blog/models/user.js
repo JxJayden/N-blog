@@ -1,4 +1,4 @@
-var mongodb = require('./db'),
+var MongoClient = require('mongodb').MongoClient,
     settings = require('../settings'),
     logger = require('log4js').getLogger("models");
 
