@@ -21,7 +21,7 @@ User.prototype.save = function(callback) {
     };
 
     // 打开数据库
-    mongodb.open(function(err, db) {
+    MongoClient.connect(settings.url,function(err, db) {
         if (err) {
             return callback(err); // 错误，返回 err 信息
         }
@@ -29,7 +29,7 @@ User.prototype.save = function(callback) {
         // 读取 users 集合
         db.collection('users', function(err, collection) {
             if (err) {
-                mongodb.close();
+                db.close();
                 return callback(err); // 错误，返回 err 信息
             }
 
@@ -37,7 +37,7 @@ User.prototype.save = function(callback) {
             collection.insert(user, {
                 safe: true
             }, function(err, user) {
-                mongodb.close();
+                db.close();
                 if (err) {
                     return callback(err); // 错误，返回 err 信息
                 }
@@ -51,7 +51,7 @@ User.prototype.save = function(callback) {
 User.get = function(name, callback) {
     // 打开数据库
     logger.info('数据库：'+ settings.url);
-    mongodb.open(function(err, db) {
+    MongoClient.connect(settings.url,function(err, db) {
         if (err) {
             return callback(err); // 错误，返回 err 信息
         }
@@ -59,7 +59,7 @@ User.get = function(name, callback) {
         // 读取 users 集合
         db.collection('users', function(err, collection) {
             if (err) {
-                mongodb.close();
+                db.close();
                 return callback(err); // 错误，返回 err 信息
             }
 
@@ -67,7 +67,7 @@ User.get = function(name, callback) {
             collection.findOne({
              name:name
             },function(err,user) {
-             mongodb.close();
+             db.close();
              if (err) {
               return callback(err);
              }
