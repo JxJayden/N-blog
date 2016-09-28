@@ -4,5 +4,5 @@
 根据[nswbmw/N-blog](https://github.com/nswbmw/N-blog) 教程学习。
 
 使用本地 mongodb 的稳定版本：[master 分支](https://github.com/JxJayden/N-blog/tree/master);
-部署到 heroku 的版本：[heroku 分支](https://github.com/JxJayden/N-blog/tree/heroku)
+部署到 heroku 的版本：[heroku 分支](https://github.com/JxJayden/N-blog/tree/heroku)，mongoDB 数据库部署在 mlab。
 
